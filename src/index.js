@@ -33,16 +33,17 @@ class Sensor {
 
 class IotServer {
     constructor() {
-        this.server = [];
+        this.iotServer = [];
     }
 
     start([sensor]) {
-        this.server.push(sensor);
+        // 센서 추가
+        this.iotServer.push(sensor);
     }
 
     publish(server) {
         const { deviceId, actionId, payload } = server;
-        for (let sensorElement of this.server) {
+        for (let sensorElement of this.iotServer) {
             // CHANGE_REPORTING_INTERVAL 액션이 발생
             if (sensorElement.powerStatus === 'on' && server.actionId === 'CHANGE_REPORTING_INTERVAL') {
                 sensorElement.reportingInterval = server.payload;
@@ -60,7 +61,7 @@ module.exports = {
 // 서버가 Array안에 들어있으니 Array 돌아주기 (서버가 더 추가될 수 있나?)
 // 센서의 actionId가 'CHANGE_REPORTING_INTERVAL'일 때
 // this.server의 reportingInterval을 payload로 변경
-// * 같은 id 조건을 추가했었으나, 서버 아이디 === 센서 디바이스 아이디가 동일해야한다는 조건이 없으므로 삭제함
+// * 같은 id 조건을 추가했었으나, 센서 아이디 === 서버 디바이스 아이디가 동일해야한다는 조건이 없으므로 삭제함
 // sensorElement.id === server.deviceId &&
 
 // this.server의 powerStatus가 on 일 때만으로 해서 off일 때는 10000 그대로이게 함
